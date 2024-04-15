@@ -67,9 +67,7 @@ pipeline {
                         sh "docker rm test_${DOCKER_IMAGE}"
                     }
                     catch (Exception e) {
-                        echo "container des not exist"    
-                        
-                        
+                        echo "container des not exist or docker don't started"    
                     }
                 } 
                 
