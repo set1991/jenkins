@@ -62,16 +62,21 @@ pipeline {
             agent { label 'agent_226' }
             steps {
                script {
-                    def status = sh(returnStdout: true, script: 'docker ps -a --filter name=test_${DOCKER_IMAGE} | wc -l')
-                    result = "${status}"
-                    print ("${result}")
-                    if ("${result}" == "1") {
-                        echo "container does not exist"
-                    } else {
-                        echo "delete container"
-                        sh "docker stop test_${DOCKER_IMAGE}"
-                        sh "docker rm test_${DOCKER_IMAGE}"
-                    }
+                    if(( $(docker ps --filter name=test_${DOCKER_IMAGE} | wc -l) == 1)) 
+                        then
+                            echo "всё плохо" 
+                    fi  
+                   //def status = sh(returnStdout: true, script: 'docker ps -a --filter name=test_${DOCKER_IMAGE} | wc -l')
+                  
+                   //result = "${status}"
+                    //print ("${result}")
+                    //if ("${result}" == "1") {
+                    //    echo "container does not exist"
+                    //} else {
+                    //    echo "delete container"
+                    //    sh "docker stop test_${DOCKER_IMAGE}"
+                    //    sh "docker rm test_${DOCKER_IMAGE}"
+                    //}
                 } 
                 
             }
