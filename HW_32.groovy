@@ -63,7 +63,7 @@ pipeline {
             steps {
                script {
                     def status = sh(returnStdout: true, script: 'docker ps -a --filter name=test_${DOCKER_IMAGE} | wc -l')
-                    echo "${status}"
+                    result = "${status}"
                     if ("${status}" == 1) {
                         echo "container does not exist"
                     } else {
