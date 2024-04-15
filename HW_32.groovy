@@ -65,7 +65,7 @@ pipeline {
                     def status = sh(returnStdout: true, script: 'docker ps -a --filter name=test_${DOCKER_IMAGE} | wc -l')
                     result = "${status}"
                    println ("$result")
-                    if ("${result}" == "1") {
+                    if (result == '1') {
                         echo "container does not exist"
                     } else {
                         echo "delete container"
