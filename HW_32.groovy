@@ -63,7 +63,8 @@ pipeline {
             steps {
                script {
                     def status = sh(returnStdout: true, script: 'docker ps -a --filter name=test_${DOCKER_IMAGE} | wc -l')
-                    if ("${status}" == "1") {
+                    echo "${status}"
+                    if ("${status}" == 1) {
                         echo "container does not exist"
                     } else {
                         echo "delete container"
