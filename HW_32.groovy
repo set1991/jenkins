@@ -62,13 +62,14 @@ pipeline {
             agent { label 'agent_226' }
             steps {
                script {
-                    def status = sh(returnStdout: true, script: 'docker ps -a --filter name=test_${DOCKER_IMAGE} | wc -l')
-                    if ("${status}" == "1") {
-                        echo "container does not exist"
-                    } else {
-                        echo "delete container"
+                    try{
                         sh "docker stop test_${DOCKER_IMAGE}"
                         sh "docker rm test_${DOCKER_IMAGE}"
+                    }
+                    catch (Exception e) {
+                        echo "container des not exist"    
+                        
+                        
                     }
                 } 
                 
@@ -79,6 +80,8 @@ pipeline {
             steps {
                 echo 'deploy to NGINXWebServer'
                 sh "docker run -d --name test_${DOCKER_IMAGE} -p 8081:8081 set1991/${DOCKER_IMAGE}" 
+                echo "container test_${DOCKER_IMAGE} started"            
+                
             }
         }           
         stage('Smoke testing'){
