@@ -58,19 +58,19 @@ pipeline {
                 //sh "cp ${DOCKER_IMAGE}.tar /var/lib/jenkins/${DOCKER_IMAGE}.tar"
             }
         }
-        stage ('pre deploy test') {
+	stage ('pre deploy test') {
             agent { label 'agent_226' }
             steps {
-               script {
-                    try{
-                        sh "docker stop test_${DOCKER_IMAGE}"
-                        sh "docker rm test_${DOCKER_IMAGE}"
-                    }
-                    catch (Exception e) {
-                        echo "container des not exist or docker don't started"    
-                    }
-                } 
-                
+                sh '''#!/bin/bash
+                    result=$( docker ps -a -f name=test_${DOCKER_IMAGE} | wc -l )
+                    if [[  "$result">1 ]]; then
+                        echo "Container test_${DOCKER_IMAGE} exists. STOP and DELETE CONTAINER"
+                        docker stop test_${DOCKER_IMAGE}
+                        docker rm test_${DOCKER_IMAGE}
+                    else
+                        echo 'No such container exist'
+                    fi
+                    '''
             }
         } 
         stage ('deployment') {
