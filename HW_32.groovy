@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent { label 'master' }
     parameters {
         string(name: "DOCKER_IMAGE", defaultValue: "nginx_jenkins", description: "Name for docker image")
     }
