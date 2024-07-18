@@ -5,7 +5,7 @@ RUN apt-get update && apt install -y nginx  && apt install -y curl
 #copy default cfg 
 COPY default /etc/nginx/sites-available/default	
 #copy index html
-COPY  ./tms-by/index.html /var/www/tms-by/index.html	
+COPY  ./tms-by/ /var/www/tms-by/	
 #open port
 EXPOSE 8081
 CMD ["/usr/sbin/nginx","-g","daemon off;"]
